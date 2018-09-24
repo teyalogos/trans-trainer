@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Voice Classifier</title>
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!--Bootstrap-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+
+  <!--JQuery-->
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+  <!--socketio setup, scripts, and css links-->
+  <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
+  <script src="{{url_for('static', filename='communicate.js')}}"></script>
+</head>
+
+<body>
+  <div class='container'>
+    <h1>Voice Classifier</h1>
+
+    <!--Form to upload file-->
+    <div class="input-group is-invalid">
+      <form method=post enctype=multipart/form-data id='fileUpload' target="frame">
+        <input type="file" name="file" id="fileInput" class="custom-file-input" onchange="this.form.submit()">
+        <label class="custom-file-label" for="fileInput">Choose a WAV file...</label>
+      </form>
+    </div>
+
+    <!--Simple Progress Bar-->
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" aria-valuemin="0"
+        aria-valuemax="100" style="width:0%" id='progressBar'>
+      </div>
+    </div>
+
+    <!--Container that holds all the information about the prediction, audio file, etc-->
+    <div id='statsContainer' class='collapse hide'>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Statistic</th>
+            <th scope="col">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Label</td>
+            <td id='predictionDisplay'>label</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Probability</td>
+            <td id='predictionProbability'>probability</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Mean Frequency (kHz)</td>
+            <td id='meanfreq'>meanfreq</td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td>Median Frequency (kHz)</td>
+            <td id='medianfreq'>medianfreq</td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td>Mode Frequency (kHz)</td>
+            <td id='mode'>modefreq</td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td>Standard Deviation</td>
+            <td id='sd'>standard deviation</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="about">
+      <h2>How does it work?</h2>
+      <p>The program uses a neural network to distinguish between female and male voices, with 98% accuracy.</p>
+      <p>It was trained on 3,168 voice samples, labeled by their gender. The neural network tries to determine the
+        gender of the voice via acoustic properties, and gets better over time.</p>
+      <p>The data set can be found <a href="https://raw.githubusercontent.com/primaryobjects/voice-gender/master/voice.csv">here</a>,
+        and the project was based off <a href="http://www.primaryobjects.com/2016/06/22/identifying-the-gender-of-a-voice-using-machine-learning/">this</a> article/p>
+      <p style="font-size: 12px;">Made by <a href="https://github.com/Oboark/voiceclassifier">Oboark</a>, 22/09/18</p>
+    </div>
+  </div>
+
+  <!--Bootstrap Javascript-->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+</body>
+<!--Target page refresh on form submit to this frame, so the page doesn't refresh-->
+<iframe name="frame"></iframe>
+
+</html>
